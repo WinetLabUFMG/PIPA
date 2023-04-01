@@ -1,0 +1,35 @@
+
+.gpPolitica_container {
+    width: 80%;
+    margin: 0 auto;
+    padding: 0.5em;
+    
+}
+
+.gpPolitica_container h1 {
+    font-weight: 700;
+    color: white;
+    margin: 1 auto;
+    padding: 0.5em;
+    background-color: #000000;
+    border-top-right-radius: 0.3em;
+    border-top-left-radius: 0.3em;
+
+}
+
+
+.gpPolitica_buttonsAction {
+    text-align: center;
+     
+
+}
+
+.gpPolitica_container p{
+    font-weight: 700;
+    color: white;
+    padding: 0.5em;
+    background-color: #070904
+    ;
+
+
+}
