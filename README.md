@@ -1,8 +1,8 @@
 
 
-# PAPA
+# PIPA
 
-O PAPA é uma plataforma com foco em centralizar o gerenciamento de autorização de diversos serviços de autorização.
+O PIPA é uma plataforma com foco em centralizar o gerenciamento de autorização de diversos serviços de autorização.
 
 
 ### Configuração do Ambiente
