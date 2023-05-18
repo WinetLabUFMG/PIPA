@@ -1,11 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 
-import Input from '../components/form/Input';
-import SubmitButton from '../components/form/SubmitButton';
+import Input from '../../components/form/Input';
+import SubmitButton from '../../components/form/SubmitButton';
 import styles from './CriarGrupo.module.css';
 import MultipleSelect from 'react-select';
-import Select from '../components/form/Select';
+import Select from '../../components/form/Select';
 
 
 function CriarPolítica(){
@@ -13,7 +13,6 @@ function CriarPolítica(){
     const [selectedProjectsgitlab, setSelectedProjectsgitlab] = useState([]);
     const [projectsgitlab, setProjectsgitlab] = useState([]);
     const [groupsipa, setGroupsipa] = useState([]);
-    const [selectedGroupipa, setSelectedGroupipa] = useState([]);
     const [policy, setPolicy] = useState([]);
 
     const navigate = useNavigate();

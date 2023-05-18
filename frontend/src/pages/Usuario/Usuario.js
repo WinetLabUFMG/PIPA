@@ -3,7 +3,6 @@ import styles from './Usuario.module.css'
 import React from 'react';
 import { useParams } from 'react-router-dom'
 import { useState, useEffect } from 'react'
-import { Link } from 'react-router-dom';
 
 import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';

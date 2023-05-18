@@ -2,20 +2,17 @@ import {useState , useEffect} from 'react'
 import { useNavigate } from 'react-router-dom'
 
 
-import Input from '../components/form/Input';
-import SubmitButton from '../components/form/SubmitButton';
+import Input from '../../components/form/Input';
+import SubmitButton from '../../components/form/SubmitButton';
 import styles from './FormCadastro.module.css'
-import Select from '../components/form/Select';
+
 
 function FormularioCadastro(){
-
     
      const history = useNavigate()
 
-    
     const [user, SetUser] = useState()
     const [groupsipa, setGroupsipa] = useState([]);
-    const [selectedGroupipa, setSelectedGroupipa] = useState([]);
 
     useEffect(() => {
         const groupsIPAArray = [];
@@ -67,11 +64,6 @@ function FormularioCadastro(){
         console.log(user)
     }
 
-    function handleGroup(e){
-        SetUser({ ...user, group: { id: e.target.value, name: e.target.options[e.target.selectedIndex].text}})
-        console.log(user)
-    }
- 
     
     
     return (

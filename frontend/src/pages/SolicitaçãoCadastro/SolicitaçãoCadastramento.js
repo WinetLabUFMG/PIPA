@@ -1,11 +1,29 @@
-import styles from './Home.module.css'
+import styles from './SolicitaçãoCadastramento.module.css'
 import { useNavigate } from 'react-router-dom'
 
-import logo_ufmg from '../img/logo_dcc.png'
+import logo_mpmg from '../../img/Logo_mpmg.png'
+import logo_ufmg from '../../img/logo_dcc.png'
 import Box from '@mui/material/Box';
 import Grid from '@mui/material/Unstable_Grid2';
 
 function SolicitaçãoCadastramento(){
+
+    function Login(){     
+        
+        fetch('http://localhost:5000/login', {
+            method: 'GET',
+            headers: {
+                Authorization: 'access_token'
+            }
+        })
+        .then(resp => resp.text())
+        .then((data) => {
+        console.log(data);
+        window.location.href = data;
+        })
+            .catch((err)  => console.log(err))
+        
+    }
 
     const history = useNavigate()
 
@@ -23,6 +41,7 @@ function SolicitaçãoCadastramento(){
                             ambientes computacionais de big data.
                         </p>
 
+                        <img className={styles.logoMPMG} src={logo_mpmg}></img>
                         <img className={styles.logoUFMG} src={logo_ufmg}></img>
                     
                     </Grid>
@@ -36,7 +55,7 @@ function SolicitaçãoCadastramento(){
                                 </div>
 
                                  <div className={styles.Container}>
-                                    <button className={styles.btn} ><h1>Fazer Login</h1></button>
+                                    <button className={styles.btn} onClick={() => {Login()}}><h1>Fazer Login</h1></button>
                                 </div>
                         </Grid>
                     </Grid>
