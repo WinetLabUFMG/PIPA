@@ -1,5 +1,12 @@
-import Cookies from 'js-cookies';
-
-const isAuthenticated = () => Cookies.getItem("access_token_cookie") !== null;
+function isAuthenticated() {
+   fetch('/auth')
+  .then(response => response.json())
+  .then(data => {
+    console.log(data);
+  })
+  .catch(error => {
+    console.error('Erro:', error);
+  });
+}
 
 export { isAuthenticated}

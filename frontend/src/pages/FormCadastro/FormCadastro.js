@@ -72,7 +72,7 @@ function FormularioCadastro(){
         <div className={styles.form_container}>
             
             <h1>Solicitação de acesso</h1>
-            <p> Formulário para solicitar criação de usuário para acesso ao ambiente do GSI/MPMG</p>
+            <p> Formulário para solicitar criação de usuário para acesso ao ambiente computacional</p>
 
             <form onSubmit={submit} className={styles.form}>    
 

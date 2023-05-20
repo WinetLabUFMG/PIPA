@@ -1,6 +1,5 @@
 from flask import Flask, redirect, session, request, make_response, render_template, jsonify
 from flask_cors import CORS
-from flask_session import FileSystemSessionInterface
 import json, requests, warnings, contextlib
 from flask_restful import Api
 from flask_jwt_extended import (JWTManager, jwt_required, get_jwt_identity,

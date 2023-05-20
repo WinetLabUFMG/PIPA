@@ -15,9 +15,8 @@ import SolicitaçãoCadastramento from './pages/SolicitaçãoCadastro/Solicitaç
 
 
 const PrivateRoute = ({children, redirectTo}) => {
-  const auth = isAuthenticated()
-  console.log("isAuth:", isAuthenticated)
-  return auth ? children : <Navigate to="/" />
+
+  return isAuthenticated ? children : <Navigate to="/" />
 }
 
 function App() {
