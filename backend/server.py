@@ -51,7 +51,7 @@ CORS(app)
 old_merge_environment_settings = requests.Session.merge_environment_settings
 app.config['BASE_URL'] = 'http://localhost:3000'  #Running on localhost
 app.config['JWT_SECRET_KEY'] = '_dgUDB/DT4567"%8tgV*HYe'
-app.config['JWT_TOKEN_LOCATION'] = ['cookies']
+app.config['JWT_TOKEN_LOCATION'] = ['headers']
 app.config['JWT_COOKIE_CSRF_PROTECT'] = False
 app.config['JWT_CSRF_CHECK_FORM'] = True
 jwt = JWTManager(app) 
@@ -156,18 +156,21 @@ def callback():
         access_token = token['id_token']
         refresh_token = token['refresh_token']
 
-
         resp = make_response(redirect(url, 302))
-        #resp.headers['Authorization'] = access_token
-        print("para aqui", url)
 
         set_access_cookies(resp, access_token)
         set_refresh_cookies(resp, refresh_token)
 
-        print(token)
-
+   
         return resp
-    
+
+'''
+        if token:
+            global isAuth
+            isAuth = True
+            print(isAuth)
+'''     
+
 @app.route("/logout")
 def unset_jwt():
     resp = make_response(redirect(app.config['BASE_URL'] + '/', 302))
@@ -176,10 +179,12 @@ def unset_jwt():
 
 @app.route("/auth")
 def auth():
-    if "access_token_cookie" in request.cookies:
-        return True
+    request.url = 'http://localhost:5000/callback?code=dc6484a8-0957-3856-b048-ecb78c9d7891&state=TIo5GGVydm3zjvFIahh2IrHeQBeVi0&session_state=ea7ba86aa188889d281b4bc98ae8ca11138ce93d744923bedf2b8932bd744f0d.s0WSAKnAK12TTIzkLi4i3Q'
+    print(request.cookies)
+    if 'access_token_cookie' in request.cookies:
+        return "true"
     else:
-        return False, "Not authorized. Token invalid or not found"
+        return "false", "Not authorized. Token invalid or not found"
 
 
 @app.route("/user", methods= ['GET', 'POST', 'PUT', 'DELETE'])

@@ -1,7 +1,7 @@
 import './App.css';
+import { useState, useEffect} from 'react';
 import {BrowserRouter as Router, Routes, Route, Navigate} from 'react-router-dom';
 
-import { isAuthenticated } from './services/Auth';
 import Home from './pages/Home/Home';
 import FormularioCadastro from './pages/FormCadastro/FormCadastro';
 import Usuarios from './pages/Usuarios/Usuarios';
@@ -13,14 +13,30 @@ import GrupoPolitica  from './pages/GrupoPolitica/GrupoPolitica'
 import CriarGrupo from './pages/CriarGrupo/CriarGrupo';
 import SolicitaçãoCadastramento from './pages/SolicitaçãoCadastro/SolicitaçãoCadastramento';
 
-
-const PrivateRoute = ({children, redirectTo}) => {
-  const auth = isAuthenticated()
-  console.log("isAuth:", isAuthenticated)
-  return auth ? children : <Navigate to="/" />
-}
-
 function App() {
+  const [auth, setAuth] = useState()
+
+  useEffect(() => {
+    fetch(`http://localhost:5000/auth`,{
+        method: 'GET',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+    })
+        .then((resp) => resp.json())
+        .then((data) => {
+            console.log("authorization:", data)
+            setAuth(data)
+        })
+        .catch((error)=> console.log(error))
+  }, [])
+
+  const isAuthenticated = () => ( auth == "true" );
+
+  const PrivateRoute = ({children}) => {
+    return isAuthenticated ? children : <Navigate to="/" />
+  }
+
   return (
 
       <Router>
