@@ -15,9 +15,10 @@ import SolicitaçãoCadastramento from './pages/SolicitaçãoCadastro/Solicitaç
 import Perfil from './pages/Perfil/Perfil';
 
 function App() {
-
+  const isAuthenticated = document.cookie.includes('authTRUE=true');
+  
   const PrivateRoute = ({children}) => {
-    const isAuthenticated = document.cookie.includes('authTRUE=true');
+    
     return isAuthenticated ? children : <Navigate to="/" />
   }
 
@@ -25,16 +26,16 @@ function App() {
 
       <Router>
        <div className='AppContainer'>
-        <Navbar />
+
+        {isAuthenticated ? <Navbar /> : null}        
 
         <Routes>
           <Route exact path='/' index element={<SolicitaçãoCadastramento/>} />
           <Route exact path='/home' element={<PrivateRoute>
             <Home />
           </PrivateRoute>} />
-          <Route exact path='/cadastro' element={<PrivateRoute>
-            <FormularioCadastro />
-          </PrivateRoute>} />
+          <Route exact path='/cadastro' element={
+            <FormularioCadastro />} />
           <Route exact path='/usuarios' element={<PrivateRoute>
             <Usuarios />
           </PrivateRoute>} />

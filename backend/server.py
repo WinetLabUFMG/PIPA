@@ -32,6 +32,7 @@ GITLAB_ROOT_USERNAME = os.getenv('GITLAB_ROOT_USERNAME')
 GITLAB_ROOT_PASSWORD = os.getenv('GITLAB_ROOT_PASSWORD')
 OAUTH_CLIENT_KEY = os.getenv('OAUTH_CLIENT_KEY')
 OAUTH_CLIENT_SECRET = os.getenv('OAUTH_CLIENT_SECRET')
+JWT_SECRET_KEY = os.getenv('JWT_SECRET_KEY')
 
 
 # Services
@@ -47,7 +48,7 @@ CORS(app)
 
 old_merge_environment_settings = requests.Session.merge_environment_settings
 app.config['BASE_URL'] = 'http://localhost:3000'  #Running on localhost
-app.config['JWT_SECRET_KEY'] = '_dgUDB/DT4567"%8tgV*HYe'
+app.config['JWT_SECRET_KEY'] = JWT_SECRET_KEY
 app.config['JWT_TOKEN_LOCATION'] = ['headers']
 app.config['JWT_COOKIE_CSRF_PROTECT'] = False
 app.config['JWT_CSRF_CHECK_FORM'] = True
@@ -106,8 +107,8 @@ def expired_token_callback(callback):
 oauth = OAuth()
 oauth.init_app(app)
 
-client_id = 'gVXPQX0P0ffBUn2gs9aG9LGGRtsa'
-client_secret ='4aHj9_6vCenphTTWzZHvEhafp4ca'
+client_id = OAUTH_CLIENT_KEY
+client_secret = OAUTH_CLIENT_SECRET
 token_endpoint = 'https://150.164.10.89:9443/oauth2/token'
 redirect_uri=  'http://localhost:5000/callback'
 scope = ['openid email', 'openid profile']
@@ -116,8 +117,8 @@ access_token = ''
 
 oauth.register(
     name='wso2',
-    client_id= 'gVXPQX0P0ffBUn2gs9aG9LGGRtsa',
-    client_secret= '4aHj9_6vCenphTTWzZHvEhafp4ca',
+    client_id= OAUTH_CLIENT_KEY,
+    client_secret= OAUTH_CLIENT_SECRET,
     access_token_endpoint= 'https://150.164.10.89:9443/oauth2/token',
     access_token_params=None,
     authorize_endpoint= 'https://150.164.10.89:9443/oauth2/authorize',
@@ -161,19 +162,6 @@ def callback():
         resp.set_cookie('authTRUE', value='true', path='/',secure=True, httponly=False)
    
         return resp
-
-'''
-        if token:
-            global isAuth
-            isAuth = True
-            print(isAuth)
-'''     
-
-@app.route("/logout")
-def unset_jwt():
-    resp = make_response(redirect(app.config['BASE_URL'] + '/', 302))
-    unset_jwt_cookies(resp)
-    return resp
 
 @app.route("/userinfo")
 def user_info():

@@ -1,12 +1,9 @@
 import {Link} from 'react-router-dom';
 import styles from './Navbar.module.css'
-import userIcon from '../img/download.png'
-import ManageAccountsIcon from '@mui/icons-material/ManageAccounts';
 import { useNavigate } from 'react-router-dom';
-import { Button } from '@mui/material';
+
 
 function Navbar(){
-    const history = useNavigate()
 
     return (
  
