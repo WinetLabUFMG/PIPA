@@ -1,9 +1,7 @@
-import styles from './GrupoPoliticas.module.css'
+import styles from './Perfil.module.css'
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { useNavigate } from 'react-router-dom';
-
-
 
 import Accordion from '@mui/material/Accordion';
 import AccordionSummary from '@mui/material/AccordionSummary';
@@ -15,15 +13,15 @@ import ReadMoreIcon from '@mui/icons-material/ReadMore';
 import AddIcon from '@mui/icons-material/Add';
 import Button from '@mui/material/Button';
 
-function GrupoPoliticas(){
+function Perfil(){
 
     const navigate = useNavigate();
 
-    const [grupoDePoliticas, setgrupoDePoliticas] = useState([])
+    const [perfil, setPerfil] = useState([])
 
     useEffect(() => {
         
-        fetch('http://localhost:5000/policy',{
+        fetch('http://localhost:5000/userinfo',{
             method: 'GET',
             headers: {
                 'Content-Type': 'application/json',
@@ -31,35 +29,27 @@ function GrupoPoliticas(){
         })
             .then((resp) => resp.json())
             .then((data) => {
-              console.log(data)
-              setgrupoDePoliticas(data)
+              setPerfil(data)
             })
             .catch((error)=> console.log(error))
 
     }, [])
 
+    function Logout(){     
+        document.cookie = 'authTRUE=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;';
+        window.location.replace("http://localhost:3000/");
+    }
 
     return (
        
-        <div className={styles.grupoPoliticas_container}>
-            
-            
+        <div className={styles.Perfil_container}>
 
-            <Button sx={{position: 'absolute', right: '11%'}} component={Link} to={'/criargrupo'} variant="contained" startIcon={<AddIcon />}>
-                Criar novo grupo de politica
-            </Button>
-            <br></br>
-            <br></br>
-            <br></br>
                         
-            <h1>Grupo de Políticas</h1>
+            <h1>Perfil</h1>
             
-
-
             <div >
-                {grupoDePoliticas.map((gp) => (
                 
-                <div key={gp.policyid}>
+                <div key={perfil.sub}>
                     <Accordion >
                         <AccordionSummary
                             expandIcon={<ExpandMoreIcon />}
@@ -71,30 +61,26 @@ function GrupoPoliticas(){
                                     borderBottomRightRadius:'0.5em',
                                   }}
                         >
-                             <Typography sx={{ fontWeight: 'bold', fontSize: 24 }}>{gp.name}</Typography>
+                             <Typography sx={{ fontWeight: 'bold', fontSize: 24 }}>{perfil.sub}</Typography>
                         </AccordionSummary>
                         <AccordionDetails>
                             <Typography>
-                                <b>Projetos GitLab:</b> 
-                                {Object.keys(gp.projectsgitlab).map((item) => 
-                                    <li key={item}>{item}</li>
-                                )}
+                                <b>Usuário:</b> {perfil.sub}
                             </Typography>
 
                             <Typography>
                                 <br></br>
-                                <b>Grupo FreeIpa:</b> <li>{gp.groupipa}</li>
+                                <b>WSO2 email:</b> {perfil.email}
                             </Typography>
                                     <br></br>
 
-                            <Button component={Link} to={`/politica/${gp.policyid}`} variant="outlined" startIcon={<ReadMoreIcon />}>
-                                Detalhes
+                            <Button onClick={() => {Logout()}} variant="outlined" startIcon={<ReadMoreIcon />}>
+                                Log Out
                             </Button>
                         </AccordionDetails>
  
                     </Accordion>
                 </div>                   
-                ))}
 
             </div>
          
@@ -104,4 +90,4 @@ function GrupoPoliticas(){
   }
 
 
-export default GrupoPoliticas;
+export default Perfil;

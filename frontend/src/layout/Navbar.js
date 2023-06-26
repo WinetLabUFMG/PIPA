@@ -1,12 +1,12 @@
 import {Link} from 'react-router-dom';
 import styles from './Navbar.module.css'
 import userIcon from '../img/download.png'
-
-function DropdownMenu() {
-
-}
+import ManageAccountsIcon from '@mui/icons-material/ManageAccounts';
+import { useNavigate } from 'react-router-dom';
+import { Button } from '@mui/material';
 
 function Navbar(){
+    const history = useNavigate()
 
     return (
  
@@ -19,6 +19,7 @@ function Navbar(){
             <li className={styles.item}><Link to="/cadastro">Fomulário Cadastro</Link></li>
             <li className={styles.item}><Link to="/usuarios">Usuários</Link></li>
             <li className={styles.item}><Link to="/politicas">Grupos</Link></li>
+            <li className={styles.item}><Link to="/perfil">Perfil</Link></li>
         </ul>
 
         </ nav>

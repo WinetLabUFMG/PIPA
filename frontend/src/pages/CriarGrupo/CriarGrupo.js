@@ -65,7 +65,7 @@ function CriarPolítica(){
         })
             .then( (resp) => resp.json())
             .catch((err)  => console.log(err))
-            //window.location.replace("http://localhost:3000/politicas");
+            window.location.replace("http://localhost:3000/politicas");
 
     }
 

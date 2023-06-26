@@ -1,12 +1,10 @@
 from flask import Flask, redirect, session, request, make_response, render_template, jsonify
 from flask_cors import CORS
 from flask_session import FileSystemSessionInterface
-import json, requests, warnings, contextlib
+import json, requests, warnings, contextlib, subprocess
 from flask_restful import Api
-from flask_jwt_extended import (JWTManager, jwt_required, get_jwt_identity,
-                                create_access_token, create_refresh_token, 
-                                set_access_cookies, set_refresh_cookies, 
-                                unset_jwt_cookies,unset_access_cookies)
+from flask_jwt_extended import (JWTManager, set_access_cookies, set_refresh_cookies, 
+                                unset_jwt_cookies,unset_access_cookies, decode_token)
 
 from urllib3.exceptions import InsecureRequestWarning
 from authlib.integrations.flask_client import OAuth
@@ -113,9 +111,9 @@ client_id = 'gVXPQX0P0ffBUn2gs9aG9LGGRtsa'
 client_secret ='4aHj9_6vCenphTTWzZHvEhafp4ca'
 token_endpoint = 'https://150.164.10.89:9443/oauth2/token'
 redirect_uri=  'http://localhost:5000/callback'
-scope = ['openid email']
-
+scope = ['openid email', 'openid profile']
 client = OAuth2Session(client_id=client_id, client_secret=client_secret, scope=scope, redirect_uri=redirect_uri)
+access_token = ''
 
 oauth.register(
     name='wso2',
@@ -153,14 +151,15 @@ def callback():
         url = 'http://localhost:3000/home'
 
         token = client.fetch_token(token_endpoint, authorization_response=authorization_response)
-        access_token = token['id_token']
-        refresh_token = token['refresh_token']
+
+        global access_token
+        access_token = token['access_token']
+        print(access_token)
 
         resp = make_response(redirect(url, 302))
 
-        set_access_cookies(resp, access_token)
-        set_refresh_cookies(resp, refresh_token)
-
+        set_access_cookies(resp, token['id_token'])
+        resp.set_cookie('authTRUE', value='true', path='/',secure=True, httponly=False)
    
         return resp
 
@@ -177,14 +176,18 @@ def unset_jwt():
     unset_jwt_cookies(resp)
     return resp
 
-@app.route("/auth")
-def auth():
-    request.url = 'http://localhost:5000/callback?code=dc6484a8-0957-3856-b048-ecb78c9d7891&state=TIo5GGVydm3zjvFIahh2IrHeQBeVi0&session_state=ea7ba86aa188889d281b4bc98ae8ca11138ce93d744923bedf2b8932bd744f0d.s0WSAKnAK12TTIzkLi4i3Q'
-    print(request.cookies)
-    if 'access_token_cookie' in request.cookies:
-        return "true"
-    else:
-        return "false", "Not authorized. Token invalid or not found"
+@app.route("/userinfo")
+def user_info():
+        with no_ssl_verification():
+            print(access_token)
+            # Comando curl que será executado
+            curl_command = f'curl -k -H "Authorization: Bearer {access_token}" https://150.164.10.89:9443/oauth2/userinfo?schema=openid'
+            try:
+                # Executa o comando curl e captura a saída
+                output = subprocess.check_output(curl_command, shell=True, text=True)
+                return output
+            except subprocess.CalledProcessError as e:
+                return f"Ocorreu um erro ao executar o comando curl: {str(e)}"
 
 
 @app.route("/user", methods= ['GET', 'POST', 'PUT', 'DELETE'])

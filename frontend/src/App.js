@@ -12,28 +12,12 @@ import GrupoPoliticas from './pages/GrupoPoliticas/GrupoPoliticas'
 import GrupoPolitica  from './pages/GrupoPolitica/GrupoPolitica'
 import CriarGrupo from './pages/CriarGrupo/CriarGrupo';
 import SolicitaçãoCadastramento from './pages/SolicitaçãoCadastro/SolicitaçãoCadastramento';
+import Perfil from './pages/Perfil/Perfil';
 
 function App() {
-  const [auth, setAuth] = useState()
-
-  useEffect(() => {
-    fetch(`http://localhost:5000/auth`,{
-        method: 'GET',
-        headers: {
-            'Content-Type': 'application/json',
-        },
-    })
-        .then((resp) => resp.json())
-        .then((data) => {
-            console.log("authorization:", data)
-            setAuth(data)
-        })
-        .catch((error)=> console.log(error))
-  }, [])
-
-  const isAuthenticated = () => ( auth == "true" );
 
   const PrivateRoute = ({children}) => {
+    const isAuthenticated = document.cookie.includes('authTRUE=true');
     return isAuthenticated ? children : <Navigate to="/" />
   }
 
@@ -65,6 +49,9 @@ function App() {
           </PrivateRoute>} />
           <Route exact path='/criargrupo' element={<PrivateRoute>
             <CriarGrupo />
+          </PrivateRoute>} />
+          <Route exact path='/perfil' element={<PrivateRoute>
+            <Perfil />
           </PrivateRoute>} />
 
         </Routes>

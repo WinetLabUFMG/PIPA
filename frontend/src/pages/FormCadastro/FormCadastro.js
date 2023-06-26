@@ -9,13 +9,14 @@ import styles from './FormCadastro.module.css'
 
 function FormularioCadastro(){
     
-     const history = useNavigate()
+    const history = useNavigate()
 
     const [user, SetUser] = useState()
     const [groupsipa, setGroupsipa] = useState([]);
 
     useEffect(() => {
-        const groupsIPAArray = [];
+    const groupsIPAArray = [];
+    
     fetch('http://localhost:5000/ipa/getGroups',{
         method: 'GET',
         headers: {
